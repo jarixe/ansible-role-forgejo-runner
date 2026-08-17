@@ -1,0 +1,22 @@
+---
+forgejo_runner_version: "12.12.0"
+forgejo_runner_download_base: "https://code.forgejo.org/forgejo/runner/releases/download"
+forgejo_runner_url: "{{ forgejo_runner_download_base }}/v{{ forgejo_runner_version }}/forgejo-runner-{{ forgejo_runner_version }}-linux-amd64"
+
+forgejo_runner_user: "forgejo-runner"
+forgejo_runner_group: "forgejo-runner"
+forgejo_runner_install_dir: "/opt/forgejo-runner"
+forgejo_runner_capacity: 2
+
+forgejo_runner_labels:
+  - "docker:docker://node:22-bookworm"
+  - "ubuntu-latest:docker://catthehacker/ubuntu:act-latest"
+
+# Forgejo instance this runner connects to.
+forgejo_runner_instance_url: "http://localhost:3000"
+
+# Connection credentials: create the runner in Forgejo first
+# (Site Admin -> Actions -> Runners -> Create new runner) to obtain the
+# UUID + Token (shown only once), then set these.
+forgejo_runner_uuid: ""
+forgejo_runner_token: ""

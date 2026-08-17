@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Forgejo Runner
+Documentation=https://forgejo.org/docs/latest/admin/actions/
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+User={{ forgejo_runner_user }}
+Group={{ forgejo_runner_group }}
+WorkingDirectory={{ forgejo_runner_install_dir }}
+ExecStart={{ forgejo_runner_install_dir }}/forgejo-runner daemon --config {{ forgejo_runner_install_dir }}/config.yaml
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=10
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target

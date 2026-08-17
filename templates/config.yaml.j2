@@ -1,0 +1,44 @@
+# Forgejo Runner configuration — managed by Ansible
+log:
+  level: info
+
+runner:
+  file: {{ forgejo_runner_install_dir }}/.runner
+  capacity: {{ forgejo_runner_capacity }}
+  timeout: 3h
+  insecure: false
+  fetch_timeout: 5s
+  fetch_interval: 2s
+  labels:
+{% for label in forgejo_runner_labels %}
+    - "{{ label }}"
+{% endfor %}
+
+cache:
+  enabled: true
+  dir: {{ forgejo_runner_install_dir }}/cache
+  host: ""
+  port: 0
+
+container:
+  network: "host"
+  privileged: false
+  options: "--network=host"
+  workdir_parent:
+  valid_volumes: []
+  docker_host: ""
+  force_pull: false
+
+host:
+  workdir_parent: {{ forgejo_runner_install_dir }}/workspace
+
+# Forgejo instance(s) this runner connects to (v12+). Credentials come from a
+# runner pre-created in Forgejo (Site Admin -> Actions -> Runners -> Create
+# new runner, which shows the UUID + Token once). The connection declares no
+# labels, so it inherits runner.labels above.
+server:
+  connections:
+    forgejo:
+      url: "{{ forgejo_runner_instance_url }}"
+      uuid: "{{ forgejo_runner_uuid }}"
+      token: "{{ forgejo_runner_token }}"
