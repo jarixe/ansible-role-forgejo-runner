@@ -25,8 +25,8 @@ container:
   privileged: false
   options: "--network=host"
   workdir_parent:
-  valid_volumes: []
-  docker_host: ""
+  valid_volumes: {{ forgejo_runner_container_valid_volumes | to_json }}
+  docker_host: "{{ forgejo_runner_container_docker_host }}"
   force_pull: false
 
 host:

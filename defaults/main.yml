@@ -12,6 +12,18 @@ forgejo_runner_labels:
   - "docker:docker://node:22-bookworm"
   - "ubuntu-latest:docker://catthehacker/ubuntu:act-latest"
 
+# Container runtime for docker://-labelled jobs.
+#
+# docker_host is act_runner's switch for whether a job container can reach the
+# host's Docker daemon. "" withholds the socket, so a job that shells out to
+# `docker` fails with "no such file or directory" on /var/run/docker.sock.
+# "automount" mounts the socket in, which is what a workflow that builds and
+# pushes an image needs — at the cost of giving every containerised job on this
+# runner root-equivalent access to the host daemon. Keep the default unless a
+# repository served by this runner genuinely builds images.
+forgejo_runner_container_docker_host: ""
+forgejo_runner_container_valid_volumes: []
+
 # Forgejo instance this runner connects to.
 forgejo_runner_instance_url: "http://localhost:3000"
 
